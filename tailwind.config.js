@@ -61,9 +61,9 @@ export default {
         'display-lg-mobile': ['Montserrat', 'sans-serif'],
         'ui-button': ['Montserrat', 'sans-serif'],
         'display-lg': ['Montserrat', 'sans-serif'],
-        'body-lg': ['EB Garamond', 'serif'],
+        'body-lg': ['Montserrat', 'sans-serif'],
         'headline-md': ['Montserrat', 'sans-serif'],
-        'body-md': ['EB Garamond', 'serif'],
+        'body-md': ['Montserrat', 'sans-serif'],
         'label-bold': ['Montserrat', 'sans-serif']
       },
       fontSize: {

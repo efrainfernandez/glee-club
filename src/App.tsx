@@ -372,6 +372,56 @@ export function App() {
           </div>
         </section>
 
+        <section className="py-section-gap px-container-padding">
+          <div className="max-w-5xl mx-auto glass-card rounded-xl p-8 md:p-12 border border-white/40 shadow-2xl">
+            <div className="text-center space-y-4 mb-10">
+              <span className="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-bold text-label-bold uppercase tracking-widest shadow-sm">
+                {language === 'es' ? 'Síguenos' : 'Follow Us'}
+              </span>
+              <h2 className="font-display-lg text-display-lg text-primary">
+                {language === 'es' ? 'Conecta con el universo Glee' : 'Connect with the Glee universe'}
+              </h2>
+              <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
+                {language === 'es'
+                  ? 'Ensayos, actuaciones, backstage y toda la energía del grupo en nuestras redes sociales.'
+                  : 'Rehearsals, performances, backstage moments, and all the group energy on our social channels.'}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <a className="group rounded-lg bg-surface-container-lowest/90 p-8 border-2 border-transparent hover:border-primary hover:-translate-y-2 transition-all shadow-lg" href="#">
+                <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center mb-6 shadow-lg">
+                  <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z" /></svg>
+                </div>
+                <h3 className="font-headline-md text-primary mb-2">YouTube</h3>
+                <p className="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">
+                  {language === 'es' ? 'Actuaciones completas, clips y momentos destacados.' : 'Full performances, clips, and featured moments.'}
+                </p>
+              </a>
+
+              <a className="group rounded-lg bg-surface-container-lowest/90 p-8 border-2 border-transparent hover:border-primary hover:-translate-y-2 transition-all shadow-lg" href="#">
+                <div className="w-14 h-14 rounded-full bg-secondary-container text-primary flex items-center justify-center mb-6 shadow-lg">
+                  <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.9 1.5a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" /></svg>
+                </div>
+                <h3 className="font-headline-md text-primary mb-2">Instagram</h3>
+                <p className="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">
+                  {language === 'es' ? 'Fotos, stories y vida diaria del coro.' : 'Photos, stories, and the choir’s daily life.'}
+                </p>
+              </a>
+
+              <a className="group rounded-lg bg-surface-container-lowest/90 p-8 border-2 border-transparent hover:border-primary hover:-translate-y-2 transition-all shadow-lg" href="#">
+                <div className="w-14 h-14 rounded-full bg-tertiary text-white flex items-center justify-center mb-6 shadow-lg">
+                  <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M19.6 8.5a7.7 7.7 0 0 1-4.4-1.4v6.4a5.5 5.5 0 1 1-5.5-5.5c.4 0 .7 0 1 .1v2.7a2.8 2.8 0 1 0 1.8 2.6V2h2.7a4.9 4.9 0 0 0 4.4 4.1v2.4Z" /></svg>
+                </div>
+                <h3 className="font-headline-md text-primary mb-2">TikTok</h3>
+                <p className="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">
+                  {language === 'es' ? 'Ensayos, tendencias y el lado más espontáneo de Glee.' : 'Rehearsals, trends, and Glee’s most spontaneous side.'}
+                </p>
+              </a>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <footer className="relative z-10 w-full py-12 px-container-padding flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest/90 rounded-t-lg backdrop-blur-sm mt-12">
