@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html class="" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Glee Club Salamanca USAL - Prototipo</title>
+    <!-- Tailwind CSS with specific configuration -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9fa",
+                        "secondary-container": "#fcd400",
+                        "secondary-fixed": "#ffe16d",
+                        "primary-fixed": "#ffdadb",
+                        "tertiary": "#00423e",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-low": "#f3f4f5",
+                        "surface": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary-fixed": "#40000f",
+                        "tertiary-fixed-dim": "#59dad1",
+                        "outline-variant": "#e2bec0",
+                        "primary-fixed-dim": "#ffb2b8",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb2b8",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-surface-variant": "#5a4042",
+                        "on-primary-fixed-variant": "#91002d",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-tint": "#b81840",
+                        "on-secondary-container": "#6e5c00",
+                        "secondary": "#705d00",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#005b57",
+                        "on-tertiary-container": "#56d7ce",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#e9c400",
+                        "inverse-surface": "#2e3132",
+                        "outline": "#8e7071",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed": "#00201e",
+                        "on-primary-container": "#ffafb5",
+                        "surface-container": "#edeeef",
+                        "primary-container": "#a50034",
+                        "tertiary-fixed": "#79f6ed",
+                        "surface-container-high": "#e7e8e9",
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-tertiary-fixed-variant": "#00504c",
+                        "on-background": "#191c1d",
+                        "primary": "#a50034",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "base": "8px",
+                        "section-gap": "80px",
+                        "card-gap": "20px"
+                    },
+                    "fontFamily": {
+                        "sans": ["Montserrat", "sans-serif"],
+                        "display-lg-mobile": ["Montserrat", "sans-serif"],
+                        "ui-button": ["Montserrat", "sans-serif"],
+                        "display-lg": ["Montserrat", "sans-serif"],
+                        "body-lg": ["EB Garamond", "serif"],
+                        "headline-md": ["Montserrat", "sans-serif"],
+                        "body-md": ["EB Garamond", "serif"],
+                        "label-bold": ["Montserrat", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                        "ui-button": ["16px", {"lineHeight": "1.0", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["20px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "body-md": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-bold": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+        .organic-blob {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+        .sticker-card {
+            border: 3px solid #7a0024;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        #bg-image-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 80vh;
+            height: 80vh;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            pointer-events: none;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #bg-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0.08;
+            transition: transform 0.1s linear;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container relative">
+    <div id="root"></div>
+
+    <!-- Required Scripts -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const Navigation = ({ language, toggleLanguage }) => {
+            return (
+                <header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center max-w-7xl mx-auto rounded-full mt-4 mx-4 px-6 py-3 bg-surface/80 backdrop-blur-md shadow-lg shadow-primary/5">
+                    <Link class="font-display-lg-mobile text-display-lg-mobile font-black text-primary tracking-tighter hover:scale-105 transition-transform duration-200" to="/">Glee Club Salamanca</Link>
+                    <nav class="hidden md:flex gap-8 items-center">
+                        <a class="font-ui-button text-ui-button text-primary font-bold border-b-2 border-secondary-container hover:scale-105 transition-transform duration-200" href="#about">
+                            {language === 'es' ? 'Nuestro Sonido' : 'Our Sound'}
+                        </a>
+                        <a class="font-ui-button text-ui-button text-on-surface-variant hover:text-primary transition-colors hover:scale-105 transition-transform duration-200" href="#activities">
+                            {language === 'es' ? 'Eventos' : 'Events'}
+                        </a>
+                        <a class="font-ui-button text-ui-button text-on-surface-variant hover:text-primary transition-colors hover:scale-105 transition-transform duration-200" href="#join">
+                            {language === 'es' ? 'Únete' : 'Join Us'}
+                        </a>
+                        <a class="font-ui-button text-ui-button text-on-surface-variant hover:text-primary transition-colors hover:scale-105 transition-transform duration-200" href="#gallery">
+                            {language === 'es' ? 'Galería' : 'The Crew'}
+                        </a>
+                    </nav>
+                    <div class="flex items-center gap-4">
+                        <button 
+                            onClick={toggleLanguage}
+                            className="text-xs font-bold uppercase p-2 border border-primary/20 rounded-full hover:bg-primary/5 transition-colors"
+                        >
+                            {language === 'es' ? 'EN' : 'ES'}
+                        </button>
+                        <button class="bg-primary text-on-primary px-6 py-2 rounded-full font-ui-button text-ui-button shadow-xl hover:shadow-2xl transition-shadow duration-300 hover:scale-105 active:scale-95 transition-transform">
+                            {language === 'es' ? 'Inscríbete' : 'Register Now'}
+                        </button>
+                    </div>
+                </header>
+            );
+        };
+
+        const Footer = ({ language }) => (
+            <footer class="w-full py-12 px-container-padding flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest/90 rounded-t-lg backdrop-blur-sm mt-12">
+                <div class="flex flex-col items-center md:items-start gap-4">
+                    <span class="font-display-lg-mobile text-display-lg-mobile text-primary">Glee Club</span>
+                    <p class="font-body-md text-body-md text-on-surface-variant max-w-xs text-center md:text-left">
+                        {language === 'es' ? '© Efrain Fernández Sangrador 2026. Salamanca USAL.' : '© 2024 Glee Club Salamanca USAL. Keep the music alive.'}
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-8">
+                    <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">{language === 'es' ? 'Privacidad' : 'Privacy'}</a>
+                    <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">{language === 'es' ? 'Términos' : 'Terms'}</a>
+                    <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">{language === 'es' ? 'Contacto' : 'Contact'}</a>
+                    <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md flex items-center gap-2" href="#">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.337 2.618 6.76 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.337-.2 6.76-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.337-2.618-6.76-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+                        Instagram
+                    </a>
+                </div>
+            </footer>
+        );
+
+        const ScrollRevealer = ({ children }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                        }
+                    },
+                    { threshold: 0.1 }
+                );
+                if (ref.current) observer.observe(ref.current);
+                return () => { if (ref.current) observer.unobserve(ref.current); };
+            }, []);
+            return <div ref={ref} className="reveal">{children}</div>;
+        };
+
+        const FloatingBackground = () => {
+            const [rotation, setRotation] = useState(0);
+            useEffect(() => {
+                const handleScroll = () => {
+                    const scrollPosition = window.scrollY;
+                    const totalHeight = document.body.scrollHeight - window.innerHeight;
+                    const scrollFraction = scrollPosition / (totalHeight || 1);
+                    setRotation(scrollFraction * 360);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <div id="bg-image-container">
+                    <img 
+                        alt="Microphone Background" 
+                        id="scrolling-bg" 
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOWdHT7wKR5QXa7Ndrs5zTwJqdMqBxuPr1UC2GoaT75wSN69bkBYKqYVfvtUx6v2lvQtWRztZGbjc3Jbtea3gSp0psIgmPd7aMg_FcaSSlDv6rIlfL7h0li0UsgIGlkiPh3CMMpSDa8mRuxpMKf9Hb8gBxo0CwHAbmdWJv4fxdtupIR_-rHEk6h567E3sQrrsiF1m9hz2V6TVxLUA5eB2iV0FdUslSydAHmYpHHaAHk7SJPSH1dDNYSGGVessLZUcQwVkgDDP7QVM" 
+                        style={{ transform: `rotate(${rotation}deg)` }}
+                    />
+                </div>
+            );
+        };
+
+        // --- Pages ---
+
+        const HomePage = ({ language }) => {
+            return (
+                <main>
+                    {/* Hero Section */}
+                    <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-20 px-container-padding text-center overflow-hidden">
+                        <div className="absolute -top-24 -left-24 w-96 h-96 organic-blob bg-primary/10 -z-10 animate-float" style={{ animationDelay: '0.5s' }}></div>
+                        <div className="absolute top-1/2 -right-48 w-[500px] h-[500px] organic-blob bg-secondary-container/20 -z-10 animate-float"></div>
+                        <div className="max-w-4xl space-y-8 relative">
+                            <span className="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-bold text-label-bold uppercase tracking-widest shadow-sm">
+                                USAL · {language === 'es' ? 'Música' : 'Music'} · {language === 'es' ? 'Comunidad' : 'Community'}
+                            </span>
+                            <h1 className="font-display-lg text-[64px] md:text-[110px] leading-[0.9] text-primary tracking-tighter font-black drop-shadow-sm">
+                                Glee Club <br /> <span className="text-tertiary italic">Salamanca</span>
+                            </h1>
+                            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                                {language === 'es' 
+                                    ? "No somos solo un coro. Somos la energía, el ritmo y el corazón de la Universidad de Salamanca. ¿Estás listo para brillar?"
+                                    : "We are not just a choir. We are the energy, the rhythm, and the heart of the University of Salamanca. Are you ready to shine?"}
+                            </p>
+                            <div className="flex flex-col md:flex-row gap-card-gap justify-center items-center pt-4">
+                                <a className="bg-primary text-on-primary px-10 py-5 rounded-full font-ui-button text-ui-button text-lg flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20" href="#join">
+                                    {language === 'es' ? '¡Me apunto!' : "I'm in!"}
+                                    <span className="material-symbols-outlined">music_note</span>
+                                </a>
+                                <a className="border-2 border-tertiary text-tertiary px-10 py-5 rounded-full font-ui-button text-ui-button text-lg hover:bg-tertiary hover:text-white transition-all" href="#activities">
+                                    {language === 'es' ? 'Descubre qué hacemos' : 'Discover our work'}
+                                </a>
+                            </div>
+                        </div>
+                        {/* Floating Stickers */}
+                        <div className="absolute bottom-20 left-10 md:left-24 sticker-card bg-surface-container-lowest p-4 rotate-[-12deg] shadow-xl rounded-lg animate-float">
+                            <span className="font-label-bold text-primary">{language === 'es' ? 'ENERGÍA PURA ⚡' : 'PURE ENERGY ⚡'}</span>
+                        </div>
+                        <div className="absolute top-40 right-10 md:right-32 sticker-card bg-secondary-container p-4 rotate-[15deg] shadow-xl rounded-lg animate-float" style={{ animationDelay: '2s' }}>
+                            <span className="font-label-bold text-on-secondary-container">{language === 'es' ? 'VIBRA ESTUDIANTIL 🎤' : 'STUDENT VIBES 🎤'}</span>
+                        </div>
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="py-section-gap px-container-padding max-w-7xl mx-auto overflow-hidden">
+                        <ScrollRevealer>
+                            <div className="grid md:grid-cols-2 gap-16 items-center">
+                                <div className="relative group">
+                                    <div className="absolute inset-0 bg-primary organic-blob scale-105 group-hover:scale-110 transition-transform duration-500 opacity-20"></div>
+                                    <div className="rounded-xl overflow-hidden shadow-2xl relative z-10 -rotate-2 group-hover:rotate-0 transition-transform duration-500 border-8 border-white">
+                                        <img alt="Performance" className="w-full aspect-square object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuTYvBWTsCteEGi8KT2-7DLAsapYwxrQREz4S7Dt54XJTiKZU1USklzfHyEzvFyy7sLC_mOgmvJVQlfTGzy3JAY-ec0RdkK8jJh8VwE-1FxolMH2LTlt69gAzfumD87ntW5-ABx8C77vckwpKB04v6yEyOT98IB4vNoi_1AQ_Op8LnRaBzGIUbNp4o52F5jnVRFq9o-K12fdGlQEiI2mzeB71B_WZUKsjbuoMt63mxcPPG8F5fJmNbqIKxjg1PgCW9-VeTsS8P58U" />
+                                    </div>
+                                    <div className="absolute -bottom-6 -right-6 bg-secondary-container p-6 rounded-lg sticker-card z-20 animate-pulse">
+                                        <p className="font-headline-md text-primary font-black">+10 {language === 'es' ? 'Años' : 'Years'}</p>
+                                        <p className="font-label-bold text-on-secondary-container">{language === 'es' ? 'Creando espectáculo' : 'Making noise'}</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-6">
+                                    <h2 className="font-display-lg text-display-lg text-primary">
+                                        {language === 'es' ? 'Nuestra ' : 'Our '} 
+                                        <span className="relative">
+                                            {language === 'es' ? 'Historia' : 'History'}
+                                            <svg className="absolute -bottom-2 left-0 w-full h-2 text-secondary-container" preserveAspectRatio="none" viewBox="0 0 100 10">
+                                                <path d="M0 5 Q 50 10 100 5" fill="transparent" stroke="currentColor" strokeWidth="4"></path>
+                                            </svg>
+                                        </span>
+                                    </h2>
+                                    <p className="font-body-md text-body-md text-on-surface-variant">
+                                        {language === 'es' 
+                                            ? "Nacimos en los pasillos de la USAL con una misión clara: romper con los esquemas de los coros tradicionales. El Glee Club Salamanca es un espacio de libertad creativa donde reinterpretamos clásicos del pop, rock y musicales con arreglos vocales únicos."
+                                            : "We were born in the hallways of USAL with a clear mission: to break the mold of traditional choirs. Glee Club Salamanca is a space for creative freedom where we reinterpret pop, rock, and musical classics with unique vocal arrangements."}
+                                    </p>
+                                    <p className="font-body-md text-body-md text-on-surface-variant">
+                                        {language === 'es'
+                                            ? "Más que un grupo de canto, somos una familia de más de 60 voces que comparten la pasión por el escenario y el compañerismo. Aquí, cada nota cuenta y cada persona brilla con luz propia."
+                                            : "More than just a singing group, we are a family of over 60 voices sharing a passion for the stage and camaraderie. Here, every note counts and every person shines with their own light."}
+                                    </p>
+                                    <div className="pt-4 flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                                            <span className="material-symbols-outlined">groups</span>
+                                        </div>
+                                        <div>
+                                            <p className="font-label-bold text-tertiary">{language === 'es' ? 'Comunidad Inclusiva' : 'Inclusive Community'}</p>
+                                            <p className="text-sm text-on-surface-variant">{language === 'es' ? 'Abierto a todos los estudiantes de la USAL.' : 'Open to all USAL students.'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ScrollRevealer>
+                    </section>
+
+                    {/* Bento Grid Activities */}
+                    <section id="activities" className="py-section-gap bg-surface-container-low/80 backdrop-blur-sm px-container-padding">
+                        <div className="max-w-7xl mx-auto">
+                            <ScrollRevealer>
+                                <div className="text-center mb-16 space-y-4">
+                                    <h2 className="font-display-lg text-display-lg text-primary">{language === 'es' ? 'Lo que hacemos' : 'What we do'}</h2>
+                                    <p className="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">
+                                        {language === 'es' ? 'No todo es cantar, nuestra agenda está llena de momentos que no querrás perderte.' : 'It\'s not all about singing, our schedule is full of moments you won\'t want to miss.'}
+                                    </p>
+                                </div>
+                            </ScrollRevealer>
+                            <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-card-gap h-auto md:h-[600px]">
+                                <div className="md:col-span-2 md:row-span-2 rounded-lg bg-primary p-8 flex flex-col justify-end relative overflow-hidden group shadow-lg">
+                                    <img alt="Concerts" className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfoh9LR0h4HnZs_BfgpzGz-93oobcfK4WCDtGRlFPfqTvGpOHlPAlgqMOV3uHL8fpGfzg5orcWE7vbrqqu0KNqNQQX7l5u-Y-UJ5dgJBq-0NvHD-qhTqLwqcNeZ_XsiDXSGOZTUSz7V5B4SjWoVOGlchMAneUVjZbtAO3gGNiwZCZL1CEJSWum8iUOPzfDO3CWF8BcSf4u44QZPTaVC28FvcX1HN0xXh1FvsW7JoYGpJIk6cueoev5ToksD8cyBX5qVYyLRVhQWYA" />
+                                    <div className="relative z-10 space-y-2">
+                                        <span className="material-symbols-outlined text-secondary-container text-4xl">music_note</span>
+                                        <h3 className="font-headline-md text-white text-3xl">{language === 'es' ? 'Conciertos Épicos' : 'Epic Concerts'}</h3>
+                                        <p className="text-white/80 font-body-md">{language === 'es' ? 'Desde teatros clásicos hasta plazas al aire libre.' : 'From classic theaters to outdoor plazas.'}</p>
+                                    </div>
+                                </div>
+                                <div className="md:col-span-1 bg-tertiary-container rounded-lg p-6 flex flex-col gap-4 shadow-lg group hover:-translate-y-2 transition-transform">
+                                    <span className="material-symbols-outlined text-tertiary-fixed-dim text-3xl">mic</span>
+                                    <h3 className="font-label-bold text-on-tertiary-container text-xl">{language === 'es' ? 'Ensayos Abiertos' : 'Open Rehearsals'}</h3>
+                                    <p className="text-on-tertiary-container/80 text-sm">{language === 'es' ? 'Vente a vernos practicar y siente la vibra.' : 'Come see us practice and feel the vibe.'}</p>
+                                </div>
+                                <div className="md:col-span-1 bg-secondary-container rounded-lg p-6 flex flex-col gap-4 shadow-lg group hover:-translate-y-2 transition-transform">
+                                    <span className="material-symbols-outlined text-primary text-3xl">celebration</span>
+                                    <h3 className="font-label-bold text-primary text-xl">{language === 'es' ? 'Eventos de Equipo' : 'Team Events'}</h3>
+                                    <p className="text-primary/80 text-sm">{language === 'es' ? 'Escapadas, cenas y fiestas.' : 'Getaways, dinners, and parties.'}</p>
+                                </div>
+                                <div className="md:col-span-2 bg-surface-container-highest rounded-lg p-8 flex items-center gap-8 shadow-lg group overflow-hidden">
+                                    <div className="flex-1 space-y-2">
+                                        <h3 className="font-headline-md text-primary">{language === 'es' ? 'Grabaciones' : 'Recordings'}</h3>
+                                        <p className="text-on-surface-variant font-body-md">{language === 'es' ? 'Pasamos por el estudio para inmortalizar arreglos.' : 'We hit the studio to immortalize our arrangements.'}</p>
+                                    </div>
+                                    <div className="w-32 h-32 organic-blob bg-primary/20 flex items-center justify-center shrink-0">
+                                        <span className="material-symbols-outlined text-primary text-5xl">graphic_eq</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Join Us Section */}
+                    <section id="join" className="py-section-gap px-container-padding relative overflow-hidden">
+                        <div className="max-w-7xl mx-auto">
+                            <ScrollRevealer>
+                                <h2 className="font-display-lg text-display-lg text-primary text-center mb-16">{language === 'es' ? 'Únete en 3 pasos' : 'Join in 3 steps'}</h2>
+                                <div className="grid md:grid-cols-3 gap-12">
+                                    <div className="relative text-center space-y-6">
+                                        <div className="w-24 h-24 mx-auto rounded-full bg-primary flex items-center justify-center text-white font-black text-4xl shadow-xl relative z-10">1</div>
+                                        <div className="hidden md:block absolute top-12 left-2/3 w-full border-t-4 border-dashed border-primary/20 -z-0"></div>
+                                        <h3 className="font-headline-md text-primary">{language === 'es' ? 'Inscríbete' : 'Register'}</h3>
+                                        <p className="font-body-md text-on-surface-variant px-4">{language === 'es' ? 'Rellena el formulario rápido.' : 'Fill out the quick form.'}</p>
+                                    </div>
+                                    <div className="relative text-center space-y-6">
+                                        <div className="w-24 h-24 mx-auto rounded-full bg-secondary-container flex items-center justify-center text-primary font-black text-4xl shadow-xl relative z-10">2</div>
+                                        <div className="hidden md:block absolute top-12 left-2/3 w-full border-t-4 border-dashed border-primary/20 -z-0"></div>
+                                        <h3 className="font-headline-md text-primary">{language === 'es' ? 'Casting Casual' : 'Casual Audition'}</h3>
+                                        <p className="font-body-md text-on-surface-variant px-4">{language === 'es' ? 'Solo queremos escucharte cantar un poco.' : 'We just want to hear you sing a bit.'}</p>
+                                    </div>
+                                    <div className="relative text-center space-y-6">
+                                        <div className="w-24 h-24 mx-auto rounded-full bg-tertiary flex items-center justify-center text-white font-black text-4xl shadow-xl relative z-10">3</div>
+                                        <h3 className="font-headline-md text-primary">{language === 'es' ? '¡Bienvenido!' : 'Welcome!'}</h3>
+                                        <p className="font-body-md text-on-surface-variant px-4">{language === 'es' ? 'Empieza a vivir la experiencia Glee.' : 'Start living the Glee experience.'}</p>
+                                    </div>
+                                </div>
+                            </ScrollRevealer>
+
+                            {/* Form */}
+                            <ScrollRevealer>
+                                <div className="mt-20 max-w-2xl mx-auto glass-card p-10 rounded-lg shadow-2xl border-t-8 border-primary relative">
+                                    <div className="absolute -top-10 -right-10 w-20 h-20 bg-secondary-container rounded-full flex items-center justify-center rotate-12 shadow-lg">
+                                        <span className="material-symbols-outlined text-primary text-3xl">edit</span>
+                                    </div>
+                                    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <div className="space-y-2">
+                                                <label className="font-label-bold text-on-surface-variant block pl-2">{language === 'es' ? 'Nombre completo' : 'Full Name'}</label>
+                                                <input className="w-full bg-surface-container-low border-none rounded-lg p-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" placeholder={language === 'es' ? 'Tu nombre' : 'Your name'} type="text" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="font-label-bold text-on-surface-variant block pl-2">Email</label>
+                                                <input className="w-full bg-surface-container-low border-none rounded-lg p-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="usuario@usal.es" type="email" />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="font-label-bold text-on-surface-variant block pl-2">{language === 'es' ? '¿Qué voz crees que eres?' : 'Voice type'}</label>
+                                            <select className="w-full bg-surface-container-low border-none rounded-lg p-4 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none appearance-none">
+                                                <option>Soprano / Contralto</option>
+                                                <option>Tenor / Barítono / Bajo</option>
+                                                <option>{language === 'es' ? 'Ni idea, ¡ayudadme!' : "No idea, help!"}</option>
+                                            </select>
+                                        </div>
+                                        <button className="w-full bg-primary text-white font-ui-button text-xl py-5 rounded-full hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-primary/20" type="submit">
+                                            {language === 'es' ? '¡Me apunto!' : 'I\'m joining!'}
+                                        </button>
+                                    </form>
+                                </div>
+                            </ScrollRevealer>
+                        </div>
+                    </section>
+
+                    {/* Gallery Section */}
+                    <section id="gallery" className="py-section-gap px-container-padding bg-surface-container-lowest/70 backdrop-blur-sm">
+                        <div className="max-w-7xl mx-auto">
+                            <h2 className="font-display-lg text-display-lg text-primary mb-12 flex items-center gap-4">
+                                {language === 'es' ? 'Momentos Glee' : 'Glee Moments'}
+                                <span className="w-12 h-1 w-24 bg-secondary-container rounded-full hidden md:block"></span>
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <div className="aspect-square rounded-lg overflow-hidden group shadow-lg border-4 border-white">
+                                    <img alt="Gallery 1" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXi8p0Gzu5VUHZey4eDexIvF_kiA2R-6DZBXpiW9mu3SF7NgeQJJr2vSLOw-_iKH0jXSrh5ALy5BQAGpw-aaxvL3h48cYmwjgJHPu2l1Y7t28Z94HhXw94wlQ2-cMTRTrUhKm8082aYd7Kr0pO2QjM96pghlmNDFt-L0dB6rOX0fHmWL-0IMoM3-9HdXYSG2L2tf1-Un2YEHCPaainHUfEGLhlfAdn4v_GJqmStBCBBvNWRBhT-SoiAlcV8XEFkDdkZ-bXXe8cyeo" />
+                                </div>
+                                <div className="aspect-video col-span-2 rounded-lg overflow-hidden group shadow-lg border-4 border-white">
+                                    <img alt="Gallery 2" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBio0SFT70LX0E0qH_hzjrONWsns-XgCTxPsWGmEZ_-BuoH78P0k-GVcyno_Cl88BZwoI1ajFDZXYdoyvLf7qUPibPA71nAV2xcfBnVymrZbSRgHdvHWrtfQjGtbBOBpVUviSenjUZK5kglCpI3XXLEmlMuBBN_EIhHst5EUQi3EZ_5eGjOaI--5UxpHfGb-jGOWqrl4D3LNuZ7rXQGo9MxLPAJWldmgYzORs94j3xDyllOylh8Ulu1vZHtf9RMYiBuqbjTcm7OGDM" />
+                                </div>
+                                <div className="aspect-[3/4] rounded-lg overflow-hidden group shadow-lg border-4 border-white">
+                                    <img alt="Gallery 3" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDytDD-aDgCzxE8TfarzdRhy4qVtAl8lpbBEoLKZy7uBWeIH1h9eVt5b1b3avnwzOluPXqIqYaQkjFotHojzB8_9dACcC7Wp504iOgiBxfWJjn9pqORscG0BsLGDSvte7ipwXjsEu3WYMYQWLKYYLn6anrjW1AWI0hOpjWEHWAVLuCEa8H3D8flCEwjrktMpKc5FUMYfpZXz0fmiEpn0tsVUy4ZzhKcASOeW8BNORnq7qGgOgw_f7SynSAPJAJkAgLV4y0j_psgLaA" />
+                                </div>
+                                <div className="aspect-square rounded-lg overflow-hidden group shadow-lg border-4 border-white">
+                                    <img alt="Gallery 4" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9-839XsNc9l7bgC2F7dmBkXRajNxI60iaQRqE_PBlynP7amlPMhUNtqJrtbavmjEAFccTXo0iQ-uUpjfFtKoZnCaZcXklDAFw6BhIIeryfCWzwxolqmspAQTOy67voU3aQTnuthLq8lyZeV8IFWyJtxHBsZqyNro0F0y5x9yqqD9LFgXPiqR16YlsnGs4OAFH9JJFg5Tx5ft5hmd8lQwkDOaB08qNG8PrvF6oblxdhIuV0BZLdraRjeppMbnHuTXVyNy5zNCNkxA" />
+                                </div>
+                                <div className="aspect-square rounded-lg overflow-hidden group shadow-lg border-4 border-white">
+                                    <img alt="Gallery 5" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-DMpLRdDtDfT0x4KGw8c-QLSocBQdvLd07E-21oxHM0EQ0qspalJU4LDD8JfkesEULG6iWUv0wuQHRNxI5uS9zhhhBKONOYzZwB5dIpTgfMU-2PTV2aUaux_En2iU5S-tvXEr9LNKcAey1uqsgE6-WL04182LWVIH00aWzf3pcDK9YkawBXWj1olZ3d0gIP9eB3Nhu6FVVjzvmRGwArIsPL-kChfosdv5jifCRCWliT96Ncg2XzKIzFRn9fND-lHka36l8xsg6JU" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* FAQ Section */}
+                    <section className="py-section-gap px-container-padding max-w-3xl mx-auto">
+                        <h2 className="font-display-lg text-display-lg text-primary text-center mb-12">{language === 'es' ? '¿Dudas?' : 'Questions?'}</h2>
+                        <div className="space-y-4">
+                            <details className="group bg-surface/80 backdrop-blur-sm rounded-lg border-2 border-surface-variant p-6 hover:border-primary transition-colors cursor-pointer" open>
+                                <summary className="list-none flex justify-between items-center font-headline-md text-primary">
+                                    {language === 'es' ? '¿Hace falta saber leer música?' : 'Do I need to read music?'}
+                                    <span className="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+                                </summary>
+                                <p className="font-body-md text-on-surface-variant mt-4">
+                                    {language === 'es' ? '¡Para nada! Muchos de nuestros miembros aprenden de oído.' : 'Not at all! Many of our members learn by ear.'}
+                                </p>
+                            </details>
+                            <details className="group bg-surface/80 backdrop-blur-sm rounded-lg border-2 border-surface-variant p-6 hover:border-primary transition-colors cursor-pointer">
+                                <summary className="list-none flex justify-between items-center font-headline-md text-primary">
+                                    {language === 'es' ? '¿Cuándo son los ensayos?' : 'When are rehearsals?'}
+                                    <span className="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+                                </summary>
+                                <p className="font-body-md text-on-surface-variant mt-4">
+                                    {language === 'es' ? 'Martes y jueves por la tarde en el edificio histórico de la USAL.' : 'Tuesdays and Thursdays afternoon at the USAL historic building.'}
+                                </p>
+                            </details>
+                        </div>
+                    </section>
+                </main>
+            );
+        };
+
+        const App = () => {
+            const [language, setLanguage] = useState('es');
+            const toggleLanguage = () => setLanguage(l => l === 'es' ? 'en' : 'es');
+
+            return (
+                <MemoryRouter>
+                    <FloatingBackground />
+                    <Navigation language={language} toggleLanguage={toggleLanguage} />
+                    
+                    <Routes>
+                        <Route path="/" element={<HomePage language={language} />} />
+                    </Routes>
+
+                    <Footer language={language} />
+
+                    {/* FAB */}
+                    <a className="fixed bottom-6 right-6 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform z-40" href="#join">
+                        <span className="material-symbols-outlined text-3xl">add</span>
+                    </a>
+                </MemoryRouter>
+            );
+        };
+
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
