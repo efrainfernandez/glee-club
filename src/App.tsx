@@ -5,6 +5,17 @@ import glee3 from '../img/glee 3.png';
 import glee4 from '../img/glee 4.png';
 import glee5 from '../img/glee 5.png';
 
+const backgroundSpriteModules = import.meta.glob('./assets/background-sprites/*.png', {
+  eager: true,
+  import: 'default'
+});
+
+const backgroundSprites = Object.entries(backgroundSpriteModules)
+  .sort(([left], [right]) => left.localeCompare(right, undefined, { numeric: true }))
+  .map(([, src]) => src as string);
+
+const backgroundSpinLoops = 5;
+
 const galleryImages = [
   glee1,
   glee2,
@@ -40,12 +51,54 @@ function ScrollReveal({ children }: { children: React.ReactNode }) {
   );
 }
 
+function FloatingBackground() {
+  const [frameIndex, setFrameIndex] = useState(0);
+
+  useEffect(() => {
+    if (!backgroundSprites.length) return;
+
+    backgroundSprites.forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!backgroundSprites.length) return;
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const totalHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollFraction = scrollPosition / (totalHeight || 1);
+      const progress = scrollFraction * backgroundSpinLoops;
+      const nextFrame = Math.floor(progress * backgroundSprites.length) % backgroundSprites.length;
+
+      setFrameIndex(nextFrame);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  if (!backgroundSprites.length) {
+    return null;
+  }
+
+  return (
+    <div id="bg-image-container">
+      <img alt="Microphone Background" src={backgroundSprites[frameIndex]} />
+    </div>
+  );
+}
+
 export function App() {
   const [language, setLanguage] = useState<'es' | 'en'>('es');
   const toggleLanguage = () => setLanguage((current) => (current === 'es' ? 'en' : 'es'));
 
   return (
-    <div className="bg-background text-on-background overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container relative">
+    <div className="bg-background text-on-background overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container relative isolate">
+      <FloatingBackground />
 
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center max-w-7xl rounded-full mt-4 mx-auto px-6 py-3 bg-surface/80 backdrop-blur-md shadow-lg shadow-primary/5 w-[calc(100%-2rem)]">
         <a className="font-display-lg-mobile text-display-lg-mobile font-black text-primary tracking-tighter hover:scale-105 transition-transform duration-200" href="#top">
@@ -79,7 +132,7 @@ export function App() {
         </div>
       </header>
 
-      <main id="top">
+      <main id="top" className="relative z-10">
         <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-20 px-container-padding text-center overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 organic-blob bg-primary/10 -z-10 animate-float" style={{ animationDelay: '0.5s' }} />
           <div className="absolute top-1/2 -right-48 w-[500px] h-[500px] organic-blob bg-secondary-container/20 -z-10 animate-float" />
@@ -321,7 +374,7 @@ export function App() {
 
       </main>
 
-      <footer className="w-full py-12 px-container-padding flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest/90 rounded-t-lg backdrop-blur-sm mt-12">
+      <footer className="relative z-10 w-full py-12 px-container-padding flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest/90 rounded-t-lg backdrop-blur-sm mt-12">
         <div className="flex flex-col items-center md:items-start gap-4">
           <span className="font-display-lg-mobile text-display-lg-mobile text-primary">Glee Club</span>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-xs text-center md:text-left">

@@ -50,6 +50,42 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+#bg-image-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(68vw, 34rem);
+  height: min(68vw, 34rem);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bg-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.16;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.12));
+  transition: opacity 0.2s linear;
+}
+
+@media (max-width: 768px) {
+  #bg-image-container {
+    width: min(88vw, 24rem);
+    height: min(88vw, 24rem);
+    top: 42%;
+  }
+
+  #bg-image-container img {
+    opacity: 0.13;
+  }
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(20px);
